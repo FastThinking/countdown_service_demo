@@ -6,6 +6,7 @@ package com.as.demo_ok0;
 import android.content.Intent;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +65,7 @@ public class MainActivity extends BaseActivity {
 
         int time = list.get(App.getClickpositon()).getTime();
         //实例化
-        if (time != 0  &&  !TimeService.isstarting) {
+        if (time != 0 && !TimeService.isstarting) {
             starttime(time);
         }
 
@@ -129,7 +131,7 @@ public class MainActivity extends BaseActivity {
         } else if (time1 == timelast) {//和当前设置的是同一个 那么不用动
             return;
         } else {
-         starttime(time1);
+            starttime(time1);
         }
     }
 
@@ -164,5 +166,12 @@ public class MainActivity extends BaseActivity {
                 break;
         }
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    protected void onDestroy() {
+        stopService(new Intent(this, TimeService.class));
+        super.onDestroy();
     }
 }
